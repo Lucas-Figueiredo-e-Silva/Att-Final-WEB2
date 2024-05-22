@@ -1,18 +1,31 @@
 const WebSocket = require('ws');
+const express = require('express');
+const path = require('path');
 
-const wss = new WebSocket.Server({ port: 8080 });
+const app = express();
+const PORT = 8080;
 
-wss.on('connection', function connection(ws) {
-  console.log('Novo cliente conectado');
+app.use(express.static(path.join(__dirname, 'public')));
 
-  ws.on('message', function incoming(message) {
-    console.log('Mensagem recebida: %s', message);
-    ws.send(`Echo: ${message}`);
-  });
-
-  ws.on('close', function close() {
-    console.log('Cliente desconectado');
-  });
+const server = app.listen(PORT, () => {
+    console.log(`Servidor HTTP iniciado em http://localhost:${PORT}`);
 });
 
-console.log('Servidor WebSocket iniciado em ws://localhost:8080');
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    console.log('Novo cliente conectado');
+
+    ws.on('message', (message) => {
+        console.log('Mensagem recebida: %s', message);
+        ws.send(`Echo: ${message}`);
+    });
+
+    ws.on('close', () => {
+        console.log('Cliente desconectado');
+    });
+});
+
+
+
+
