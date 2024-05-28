@@ -1,0 +1,5 @@
+[
+    { "question": "Qual é a capital da França?", "options": ["Paris", "Londres", "Berlim", "Madri"], "answer": "Paris" },
+    { "question": "Qual é 2 + 2?", "options": ["3", "4", "5", "6"], "answer": "4" },
+    { "question": "Qual é a cor do céu?", "options": ["Verde", "Azul", "Vermelho", "Amarelo"], "answer": "Azul" }
+]

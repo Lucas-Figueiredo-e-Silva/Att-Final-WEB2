@@ -1,31 +1,82 @@
-const WebSocket = require('ws');
 const express = require('express');
-const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
+const fs = require('fs');
 
+// Configuração do servidor
 const app = express();
-const PORT = 8080;
+const server = http.createServer(app);
+const io = socketIo(server);
 
-app.use(express.static(path.join(__dirname, 'public')));
+const PORT = process.env.PORT || 3000;
 
-const server = app.listen(PORT, () => {
-    console.log(`Servidor HTTP iniciado em http://localhost:${PORT}`);
-});
+// Servindo arquivos estáticos (HTML, CSS, JS)
+app.use(express.static(__dirname + '/public'));
 
-const wss = new WebSocket.Server({ server });
+// Carregar perguntas e respostas
+const questions = JSON.parse(fs.readFileSync('questions.json', 'utf8'));
 
-wss.on('connection', (ws) => {
-    console.log('Novo cliente conectado');
+// Armazenar pontuações de todos os clientes
+let clients = {};
 
-    ws.on('message', (message) => {
-        console.log('Mensagem recebida: %s', message);
-        ws.send(`Echo: ${message}`);
+// Lógica do servidor WebSocket
+io.on('connection', (socket) => {
+    console.log('Novo cliente conectado: ', socket.id);
+
+    // Armazenar o nome do cliente e pontuação
+    let clientName = '';
+    let score = { correct: 0, incorrect: 0 };
+
+    socket.on('set_name', (name) => {
+        clientName = name;
+        clients[socket.id] = { name: clientName, score: score, currentQuestion: 0 };
+        socket.emit('welcome', `Bem-vindo ao Quiz, ${clientName}! Prepare-se para responder às perguntas.`);
+        sendQuestion(socket);
     });
 
-    ws.on('close', () => {
-        console.log('Cliente desconectado');
+    const sendQuestion = (socket) => {
+        const clientData = clients[socket.id];
+        if (clientData.currentQuestion < questions.length) {
+            socket.emit('question', {
+                question: questions[clientData.currentQuestion].question,
+                options: questions[clientData.currentQuestion].options
+            });
+        } else {
+            endQuiz(socket);
+        }
+    };
+
+    const endQuiz = (socket) => {
+        socket.emit('end', {
+            message: 'Fim do quiz! Obrigado por participar.',
+            scores: Object.values(clients)
+        });
+    };
+
+    // Receber resposta do cliente
+    socket.on('answer', (answer) => {
+        const clientData = clients[socket.id];
+        if (answer === questions[clientData.currentQuestion].answer) {
+            clientData.score.correct++;
+            socket.emit('result', 'Correto!');
+        } else {
+            clientData.score.incorrect++;
+            socket.emit('result', 'Errado!');
+        }
+        clientData.currentQuestion++;
+        clients[socket.id] = clientData;
+        sendQuestion(socket);
+        // Enviar pontuação atualizada
+        socket.emit('score', clientData.score);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado: ', socket.id);
+        delete clients[socket.id];
     });
 });
 
-
-
-
+// Iniciar o servidor
+server.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});

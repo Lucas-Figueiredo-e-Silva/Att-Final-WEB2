@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Cliente</title>
+    <title>Quiz App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Teste</h1>
-        <div id="messages" class="messages"></div>
-        <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-        <button id="sendButton">Enviar</button>
+    <div id="app">
+        <h1>Quiz App</h1>
+        <div id="name-form">
+            <input type="text" id="name" placeholder="Digite seu nome">
+            <button id="start">Iniciar</button>
+        </div>
+        <div id="message" class="hidden"></div>
+        <div id="question" class="hidden"></div>
+        <div id="options" class="hidden"></div>
+        <div id="score" class="hidden">
+            <p>Acertos: <span id="correct">0</span></p>
+            <p>Erros: <span id="incorrect">0</span></p>
+        </div>
+        <div id="final-scores" class="hidden">
+            <h2>Pontuações Finais</h2>
+            <ul id="scores-list"></ul>
+        </div>
     </div>
-    <script src="client.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
