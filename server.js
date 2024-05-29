@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     socket.on('set_name', (name) => {
         clientName = name;
         clients[socket.id] = { name: clientName, score: score, currentQuestion: 0 };
-        socket.emit('welcome', `Bem-vindo ao Quiz, ${clientName}! Prepare-se para responder às perguntas.`);
+        //socket.emit('welcome', `Bem-vindo ao Quiz, ${clientName}! Prepare-se para responder às perguntas.`);
         sendQuestion(socket);
     });
 
@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
     const endQuiz = (socket) => {
         socket.emit('end', {
-            message: 'Fim do quiz! Obrigado por participar.',
+            message: 'Fim do quiz! Obrigado por Jogar.',
             scores: Object.values(clients)
         });
     };
@@ -58,10 +58,10 @@ io.on('connection', (socket) => {
         const clientData = clients[socket.id];
         if (answer === questions[clientData.currentQuestion].answer) {
             clientData.score.correct++;
-            socket.emit('result', 'Correto!');
+            //socket.emit('result', 'Correto!');
         } else {
             clientData.score.incorrect++;
-            socket.emit('result', 'Errado!');
+            //socket.emit('result', 'Errado!');
         }
         clientData.currentQuestion++;
         clients[socket.id] = clientData;

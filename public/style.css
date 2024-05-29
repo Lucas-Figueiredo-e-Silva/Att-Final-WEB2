@@ -4,40 +4,54 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #000000;
     margin: 0;
 }
 
 #app {
-    background: white;
+    background: #8c8c8c;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: white;
+}
+
+#titulo {
+    background: #8c8c8c;
+    padding: 20px;
+    border-radius: 5px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    text-align: center;
+    color: white;
 }
 
 #question {
     margin: 20px 0;
     font-size: 1.2em;
+    color: white;
 }
 
 #options {
     margin: 20px 0;
+    color: white;
 }
 
 .option {
     display: block;
     margin: 10px 0;
     padding: 10px;
-    background-color: #e0e0e0;
+    background-color: #8c8c8c;
     border: none;
     cursor: pointer;
     width: 100%;
     text-align: left;
+    color: white;
 }
 
 .option:hover {
-    background-color: #d0d0d0;
+    background-color: #8c8c8c;
+    color: white;
 }
 
 .hidden {
@@ -46,9 +60,11 @@ body {
 
 #score {
     margin-top: 20px;
+    color: white;
 }
 
 #final-scores {
     margin-top: 20px;
     text-align: left;
+    color: white;
 }

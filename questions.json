@@ -1,5 +1,6 @@
 [
-    { "question": "Qual é a capital da França?", "options": ["Paris", "Londres", "Berlim", "Madri"], "answer": "Paris" },
-    { "question": "Qual é 2 + 2?", "options": ["3", "4", "5", "6"], "answer": "4" },
-    { "question": "Qual é a cor do céu?", "options": ["Verde", "Azul", "Vermelho", "Amarelo"], "answer": "Azul" }
+    { "question": "Quem foi a primeira pessoa a viajar no Espaço?", "options": ["Yuri Gagarin", "Neil Armstrong", "Marcos Pontes", "Buzz Aldrin"], "answer": "Yuri Gagarin" },
+    { "question": "Qual a montanha mais alta do mundo?", "options": ["Monte Chimborazo", "Monte Everest", "Pico da Neblina", "Dhaulagiri"], "answer": "Monte Everest" },
+    { "question": "Onde se localiza Machu Picchu?", "options": ["Índia", "Colômbia", "China", "Peru"], "answer": "Peru" },
+    { "question": "Quem inventou a lâmpada?", "options": ["Graham Bell", "Steve Jobs", "Thomas Edison", "Henry Ford"], "answer": "Thomas Edison" }
 ]

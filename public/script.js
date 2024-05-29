@@ -58,12 +58,13 @@ socket.on('end', (data) => {
     questionDiv.textContent = '';
     messageDiv.textContent = data.message;
     optionsDiv.innerHTML = '';
+    scoreDiv.innerHTML = '';
 
     finalScoresDiv.classList.remove('hidden');
     scoresList.innerHTML = '';
     data.scores.forEach(client => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${client.name}: Acertos: ${client.score.correct}, Erros: ${client.score.incorrect}`;
+        listItem.textContent = `${client.name}  --> Respostas Corretas: ${client.score.correct}, Respostas Incorretas: ${client.score.incorrect}`;
         scoresList.appendChild(listItem);
     });
 });
