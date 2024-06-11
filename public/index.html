@@ -4,29 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atividade Final do Semestre</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-dark text-white">
     
-    <div id="app">
-        <div id="titulo"><h1>Quiz de Conhecimentos Gerais</h1></div>
-        <div id="name-form">
-            <input type="text" id="name" placeholder="Digite seu nome">
-            <button id="start">Iniciar</button>
+    <div id="app" class="container mt-5">
+        <div id="titulo" class="text-center mb-4">
+            <h1>Quiz de Conhecimentos Gerais</h1>
         </div>
-        <div id="message" class="hidden"></div>
-        <div id="question" class="hidden"></div>
-        <div id="score" class="hidden">
-            <p>Acertos: <span id="correct">0 </span>  Erros: <span id="incorrect">0</span></p>
-            <!-- <p>Erros: <span id="incorrect">0</span></p> -->
+        <div id="name-form" class="text-center">
+            <input type="text" id="name" class="form-control mb-3" placeholder="Digite seu nome">
+            <button id="start" class="btn btn-primary">Iniciar</button>
         </div>
-        <div id="options" class="hidden"></div>
-        
-        <div id="final-scores" class="hidden">
+        <div id="message" class="text-center hidden mb-4"></div>
+        <div id="question" class="text-center hidden mb-4"></div>
+        <div id="score" class="text-center hidden mb-4">
+            <p>Acertos: <span id="correct">0</span> | Erros: <span id="incorrect">0</span></p>
+        </div>
+        <div id="options" class="text-center hidden mb-4"></div>
+        <div id="final-scores" class="hidden mt-4">
             <h2>Placar Geral:</h2>
-            <ul id="scores-list"></ul>
+            <ul id="scores-list" class="list-group"></ul>
+        </div>
+        <div class="text-center">
+            <button id="restart" class="btn btn-secondary hidden mt-4">Reiniciar Quiz</button>
         </div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>

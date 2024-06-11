@@ -23,14 +23,8 @@ let clients = {};
 io.on('connection', (socket) => {
     console.log('Novo cliente conectado: ', socket.id);
 
-    // Armazenar o nome do cliente e pontuação
-    let clientName = '';
-    let score = { correct: 0, incorrect: 0 };
-
     socket.on('set_name', (name) => {
-        clientName = name;
-        clients[socket.id] = { name: clientName, score: score, currentQuestion: 0 };
-        //socket.emit('welcome', `Bem-vindo ao Quiz, ${clientName}! Prepare-se para responder às perguntas.`);
+        clients[socket.id] = { name: name, score: { correct: 0, incorrect: 0 }, currentQuestion: 0 };
         sendQuestion(socket);
     });
 
@@ -48,31 +42,39 @@ io.on('connection', (socket) => {
 
     const endQuiz = (socket) => {
         socket.emit('end', {
-            message: 'Fim do quiz! Obrigado por Jogar.',
+            message: 'Fim do quiz! Obrigado por jogar.',
             scores: Object.values(clients)
         });
+        io.emit('update_scores', Object.values(clients)); // Atualiza o placar geral para todos
     };
 
-    // Receber resposta do cliente
     socket.on('answer', (answer) => {
         const clientData = clients[socket.id];
         if (answer === questions[clientData.currentQuestion].answer) {
             clientData.score.correct++;
-            //socket.emit('result', 'Correto!');
         } else {
             clientData.score.incorrect++;
-            //socket.emit('result', 'Errado!');
         }
         clientData.currentQuestion++;
         clients[socket.id] = clientData;
         sendQuestion(socket);
-        // Enviar pontuação atualizada
         socket.emit('score', clientData.score);
+        io.emit('update_scores', Object.values(clients)); // Atualiza o placar geral para todos
+    });
+
+    socket.on('restart_quiz', () => {
+        if (clients[socket.id]) {
+            clients[socket.id].score = { correct: 0, incorrect: 0 };
+            clients[socket.id].currentQuestion = 0;
+            sendQuestion(socket);
+            socket.emit('quiz_restarted');
+        }
     });
 
     socket.on('disconnect', () => {
         console.log('Cliente desconectado: ', socket.id);
         delete clients[socket.id];
+        io.emit('update_scores', Object.values(clients)); // Atualiza o placar geral para todos
     });
 });
 
